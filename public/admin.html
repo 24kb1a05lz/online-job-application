@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Online Job Portal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Online Job Portal - Admin</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="jobs.html">Jobs</a>
+            <a href="admin.html">Dashboard</a>
+        </nav>
+    </header>
+
+    <section class="admin-section">
+
+        <h2>Admin Dashboard</h2>
+        <p>Welcome to the Online Job Portal Administration Panel.</p>
+
+        <div class="admin-card">
+            <h3>Total Registered Users</h3>
+            <h1 id="totalUsers">Loading...</h1>
+        </div>
+
+        <button onclick="loadDashboard()">Refresh Dashboard</button>
+
+        <h2>Submitted Job Applications</h2>
+
+        <div id="applicationsList" class="applications-list">
+            Loading applications...
+        </div>
+
+    </section>
+
+    <footer>
+        <p>© 2026 Online Job Portal. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+
+        // Load registered users
+        async function loadDashboard() {
+
+            try {
+                const response = await fetch('/admin/stats');
+
+                if (!response.ok) {
+                    throw new Error('Unable to load users');
+                }
+
+                const data = await response.json();
+
+                document.getElementById('totalUsers').textContent =
+                    data.totalUsers;
+
+            } catch (error) {
+                document.getElementById('totalUsers').textContent =
+                    'Unable to load';
+                console.error(error);
+            }
+        }
+
+        // Load submitted applications
+        async function loadApplications() {
+
+            const container =
+                document.getElementById('applicationsList');
+
+            try {
+                const response = await fetch('/admin/applications');
+
+                if (!response.ok) {
+                    throw new Error('Unable to load applications');
+                }
+
+                const applications = await response.json();
+
+                if (applications.length === 0) {
+                    container.textContent = 'No applications found.';
+                    return;
+                }
+
+                const table = document.createElement('table');
+                table.className = 'applications-table';
+
+                const headings = [
+                    'ID',
+                    'Applicant Name',
+                    'Email',
+                    'Mobile',
+                    'Job Position',
+                    'Qualification',
+                    'Experience',
+                    'Applied Date',
+                    'Resume'
+                ];
+
+                const thead = document.createElement('thead');
+                const headerRow = document.createElement('tr');
+
+                headings.forEach(heading => {
+                    const th = document.createElement('th');
+                    th.textContent = heading;
+                    headerRow.appendChild(th);
+                });
+
+                thead.appendChild(headerRow);
+                table.appendChild(thead);
+
+                const tbody = document.createElement('tbody');
+
+                applications.forEach(app => {
+
+                    const row = document.createElement('tr');
+
+                    const values = [
+                        app.id,
+                        app.full_name,
+                        app.email,
+                        app.mobile,
+                        app.job_position,
+                        app.qualification,
+                        app.experience,
+                        new Date(app.applied_at).toLocaleString(),
+                        app.resume_filename
+                    ];
+
+                    values.forEach(value => {
+                        const cell = document.createElement('td');
+                        cell.textContent = value ?? '';
+                        row.appendChild(cell);
+                    });
+
+                    tbody.appendChild(row);
+                });
+
+                table.appendChild(tbody);
+                container.replaceChildren(table);
+
+            } catch (error) {
+                container.textContent =
+                    'Unable to load applications. Please refresh.';
+                console.error(error);
+            }
+        }
+
+        // Load dashboard information
+        loadDashboard();
+        loadApplications();
+
+    </script>
+
+</body>
+</html>

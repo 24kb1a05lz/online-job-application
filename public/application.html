@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Application - Online Job Portal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Online Job Portal</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="jobs.html">Jobs</a>
+            <a href="login.html">Login</a>
+            <a href="register.html">Register</a>
+        </nav>
+    </header>
+
+    <section class="application-section">
+        <h2>Job Application Form</h2>
+        <p>Enter your details to apply for your dream job.</p>
+
+        
+<form class="application-form"
+      method="POST"
+      action="/apply"
+      enctype="multipart/form-data">
+
+    <label>Full Name</label>
+    <input type="text"
+           name="full_name"
+           placeholder="Enter your full name"
+           required>
+
+    <label>Email Address</label>
+    <input type="email"
+           name="email"
+           placeholder="Enter your email"
+           required>
+
+    <label>Phone Number</label>
+    <input type="tel"
+           name="mobile"
+           placeholder="Enter your phone number"
+           required>
+
+    <label>Select Job Position</label>
+    <select name="job_position" required>
+        <option value="">Select a job</option>
+        <option>Software Developer</option>
+        <option>Web Designer</option>
+        <option>Data Analyst</option>
+        <option>Java Developer</option>
+    </select>
+
+    <label>Educational Qualification</label>
+    <input type="text"
+           name="qualification"
+           placeholder="Enter your qualification"
+           required>
+
+    <label>Work Experience</label>
+    <input type="text"
+           name="experience"
+           placeholder="Enter your experience">
+
+    <label>Upload Your Resume</label>
+    <input type="file"
+           name="resume"
+           accept=".pdf,.doc,.docx"
+           required>
+
+    <label>Why should we hire you?</label>
+    <textarea name="introduction"
+              placeholder="Write about yourself"
+              rows="5"
+              required></textarea>
+
+    <button type="submit">Submit Application</button>
+
+</form>
+
+    </section>
+
+    <footer>
+        <p>© 2026 Online Job Portal. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>
